@@ -1,23 +1,36 @@
 from aiogram import Router
-from aiogram.enums import ParseMode
 from aiogram.filters import Command
 from aiogram.types import Message, KeyboardButton, ReplyKeyboardMarkup
+from loguru import logger
 
 from src.constants import buttons, messages
+from src.models.user import User
+from src.services.user import get_user, add_user
 
 router = Router()
 
 
 @router.message(Command("start"))
 async def start(message: Message):
-    keyboard: ReplyKeyboardMarkup = ReplyKeyboardMarkup(
-        keyboard=[
-            [KeyboardButton(text=buttons.generate_screenshot)]
-        ],
-        resize_keyboard=True
-    )
-    await message.answer(
-        messages.welcome_text,
-        reply_markup=keyboard,
-        parse_mode=ParseMode.MARKDOWN
-    )
+    user_id: int = message.from_user.id
+    name: str = message.from_user.full_name
+    user: User | None = await get_user(user_id)
+    keyboard: list = [KeyboardButton(text=buttons.statistics)]
+
+    if user is None:
+        await add_user(user_id, name)
+        user: User = await get_user(user_id)
+
+    if not user.has_access:
+        return await message.answer(messages.access_denied_start)
+    else:
+        if user.is_admin:
+            keyboard.append(KeyboardButton(text=buttons.users_permissions))
+        logger.debug(f'/start для {message.from_user.first_name}')
+        return await message.answer(
+            messages.welcome,
+            reply_markup=ReplyKeyboardMarkup(
+                keyboard=[keyboard],
+                resize_keyboard=True
+            )
+        )
