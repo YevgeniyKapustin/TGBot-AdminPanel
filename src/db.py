@@ -1,13 +1,15 @@
-from typing import AsyncGenerator
+from contextlib import contextmanager
 
-from sqlalchemy import Column, Integer
-from sqlalchemy.ext.asyncio import (
-    AsyncSession, create_async_engine, AsyncEngine, async_sessionmaker
+from loguru import logger
+from sqlalchemy import Column, Integer, create_engine, Engine
+from sqlalchemy.exc import SQLAlchemyError
+
+from sqlalchemy.orm import (
+    as_declarative, declared_attr, Mapped, Session, sessionmaker
 )
-from sqlalchemy.orm import as_declarative, declared_attr, Mapped
 from sqlalchemy.pool import NullPool
 
-from src import config
+from src.utils.dsn import get_dsn
 
 
 @as_declarative()
@@ -20,12 +22,23 @@ class Base:
         return self.__name__.lower()
 
 
-engine: AsyncEngine = create_async_engine(
-    config.POSTGRES_URL, poolclass=NullPool
-)
-async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
+engine: Engine = create_engine(get_dsn(), poolclass=NullPool)
 
 
-async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
-    async with async_session_maker() as session:
+@contextmanager
+def get_session():
+    session: Session = sessionmaker(
+        bind=engine,
+        autocommit=False,
+        autoflush=False,
+        expire_on_commit=False
+    )()
+    try:
         yield session
+        session.commit()
+    except SQLAlchemyError as exception:
+        logger.critical(exception)
+        session.rollback()
+        logger.debug('session rollback')
+    finally:
+        session.close()

@@ -6,7 +6,5 @@ def log_func(func):
         logger.debug(
             f'Call func {func.__name__} with args: {args}, kwargs: {kwargs}'
         )
-        result = func(*args, **kwargs)
-        logger.debug(f'func {func.__name__} returned: {result}')
-        return result
+        return func(*args, **kwargs)
     return wrapper
