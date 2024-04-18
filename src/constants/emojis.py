@@ -1,0 +1,2 @@
+active = '🟢'
+non_active = '🔴'
