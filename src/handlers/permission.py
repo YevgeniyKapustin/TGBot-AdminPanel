@@ -1,4 +1,5 @@
-from aiogram import F, types, Router
+from aiogram import F, Router
+from aiogram.types import Message, CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from loguru import logger
 
@@ -6,13 +7,13 @@ from src.constants import buttons, messages
 from src.filters.permission import PermissionFilter
 from src.models.user import User
 from src.services.user import get_user, take_away_access, give_access
-from src.utils.permission import create_permission_builder
+from src.utils.keybords import create_permission_builder
 
 router = Router()
 
 
 @router.message(F.text == buttons.users_permissions, PermissionFilter())
-async def manage_permissions(message: types.Message):
+async def manage_permissions(message: Message):
     logger.info(buttons.users_permissions)
 
     user: User = await get_user(message.from_user.id)
@@ -28,7 +29,7 @@ async def manage_permissions(message: types.Message):
 
 
 @router.callback_query(F.data.startswith('user_config_'), PermissionFilter())
-async def change_access_state_for_user(callback: types.CallbackQuery):
+async def change_access_state_for_user(callback: CallbackQuery):
     user_id: int = int(callback.data.split('_')[2])
     user: User = await get_user(user_id)
     logger.info(f'Изменить доступ юзера {user.username}')

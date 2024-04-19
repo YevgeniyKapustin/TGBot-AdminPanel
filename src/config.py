@@ -2,6 +2,9 @@ from pydantic_settings import BaseSettings
 
 
 class Config(BaseSettings):
+    API_ID: str
+    API_HASH: str
+
     TOKEN: str
 
     MARIADB_USER: str
