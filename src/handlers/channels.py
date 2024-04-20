@@ -9,7 +9,7 @@ from src.filters.permission import PermissionFilter
 from src.models.channel import Channel
 from src.services.channel import get_channel, add_channel, delete_channel
 from src.state.add_channel import AddChannelState
-from src.utils.channel import get_channel_id
+from src.utils.channel import get_channel_id, get_channel_username
 from src.utils.keybords import (
     get_manage_channels_builder, get_manage_channel_builder
 )
@@ -96,13 +96,14 @@ async def final_add_channel(message: Message, state: FSMContext):
     channel_id: int = state_data.get('channel_id')
     name: str = message.text
 
-    if await get_channel(await get_channel_id(name)):
+    if await get_channel(await get_channel_id(channel_id)):
         answer: str = messages.add_channel_duplicate_name
         logger.info(answer)
         return message.answer(answer)
 
+    username = await get_channel_username(channel_id)
     if channel_id != -1:
-        await add_channel(channel_id, name)
+        await add_channel(channel_id, name, username)
     else:
         await message.answer(messages.add_channel_incorrect_link)
 
