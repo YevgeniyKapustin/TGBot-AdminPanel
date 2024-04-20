@@ -23,7 +23,7 @@ async def get_channel(channel_id: int) -> Channel | None:
 @log_func
 async def get_channels() -> list[Channel]:
     with get_session() as session:
-        return session.query(Channel).all()
+        return session.query(Channel).order_by(Channel.name).all()
 
 
 @log_func

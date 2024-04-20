@@ -40,9 +40,9 @@ async def get_manage_statistic_builder() -> InlineKeyboardBuilder:
 async def get_manage_channels_builder() -> InlineKeyboardBuilder:
     builder: InlineKeyboardBuilder = InlineKeyboardBuilder()
     channels: list[Channel] = await get_channels()
-    for count, channel in enumerate(channels, start=1):
+    for channel in channels:
         builder.row(InlineKeyboardButton(
-            text=f'{count}. {channel.name}',
+            text=channel.name,
             callback_data=f'channel_config:{channel.id}')
         )
     builder.row(InlineKeyboardButton(
