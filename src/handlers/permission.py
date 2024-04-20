@@ -7,7 +7,7 @@ from src.constants import buttons, messages
 from src.filters.permission import PermissionFilter
 from src.models.user import User
 from src.services.user import get_user, take_away_access, give_access
-from src.utils.keybords import create_permission_builder
+from src.utils.keybords import get_permission_builder
 
 router = Router()
 
@@ -23,14 +23,14 @@ async def manage_permissions(message: Message):
         return await message.answer(answer)
 
     answer: str = messages.select_access_user
-    builder: InlineKeyboardBuilder = await create_permission_builder()
+    builder: InlineKeyboardBuilder = await get_permission_builder()
     logger.info(answer)
     return await message.answer(answer, reply_markup=builder.as_markup())
 
 
-@router.callback_query(F.data.startswith('user_config_'), PermissionFilter())
+@router.callback_query(F.data.startswith('user_config:'), PermissionFilter())
 async def change_access_state_for_user(callback: CallbackQuery):
-    user_id: int = int(callback.data.split('_')[2])
+    user_id: int = int(callback.data.split(':')[1])
     user: User = await get_user(user_id)
     logger.info(f'Изменить доступ юзера {user.username}')
     if user.id == callback.from_user.id:

@@ -11,3 +11,13 @@ select_access_user = (
 select_access_self = 'Невозможно забрать у себя доступ.'
 
 manage_statistic = 'Статистика'
+
+manage_channels = 'Каналы'
+add_channel_name = 'Имя для канала'
+
+add_channel_link = 'Ссылка на канал'
+add_channel_incorrect_link = 'Некорректная ссылка на канал'
+add_channel_duplicate_link = 'Этот канал уже добавлен'
+add_channel_duplicate_name = 'Канал с таким названием уже существует'
+
+add_channel_finally = 'Канал {} добавлен'

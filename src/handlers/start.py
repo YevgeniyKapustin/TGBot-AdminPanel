@@ -15,7 +15,10 @@ async def start(message: Message):
     user_id: int = message.from_user.id
     name: str = message.from_user.full_name
     user: User | None = await get_user(user_id)
-    keyboard: list = [KeyboardButton(text=buttons.statistics)]
+    keyboard: list = [
+        KeyboardButton(text=buttons.statistics),
+        KeyboardButton(text=buttons.channels),
+    ]
 
     if user is None:
         await add_user(user_id, name)

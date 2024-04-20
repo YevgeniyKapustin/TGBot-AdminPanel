@@ -8,6 +8,7 @@ from alembic import context
 from src.utils.dsn import get_dsn
 from src.db import Base
 from src.models import user
+from src.models import channel
 
 config = context.config
 
