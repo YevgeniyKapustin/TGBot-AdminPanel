@@ -28,7 +28,7 @@ async def get_channels() -> list[Channel]:
 
 @log_func
 async def add_channel(channel_id: int, name: str, link: str) -> int:
-    new_channel = Channel(id=channel_id, name=name, link=f'@{link}')
+    new_channel = Channel(id=channel_id, name=name, link=link)
     with get_session() as session:
         session.add(new_channel)
     return channel_id
