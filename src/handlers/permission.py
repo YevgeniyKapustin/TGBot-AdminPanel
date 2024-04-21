@@ -13,7 +13,7 @@ router = Router()
 
 
 @router.message(F.text == buttons.users_permissions, PermissionFilter())
-async def manage_permissions(message: Message):
+async def manage_permissions_handler(message: Message):
     logger.info(buttons.users_permissions)
 
     user: User = await get_user(message.from_user.id)
@@ -29,14 +29,14 @@ async def manage_permissions(message: Message):
 
 
 @router.callback_query(F.data.startswith('user_config:'), PermissionFilter())
-async def change_access_state_for_user(callback: CallbackQuery):
+async def change_access_state_for_user_handler(callback: CallbackQuery):
     user_id: int = int(callback.data.split(':')[1])
     user: User = await get_user(user_id)
     logger.info(f'Изменить доступ юзера {user.username}')
     if user.id == callback.from_user.id:
         await callback.message.answer(messages.select_access_self)
         await callback.message.delete()
-        return await manage_permissions(callback.message)
+        return await manage_permissions_handler(callback.message)
 
     if user.has_access:
         await take_away_access(user)
@@ -44,4 +44,4 @@ async def change_access_state_for_user(callback: CallbackQuery):
         await give_access(user)
 
     await callback.message.delete()
-    return await manage_permissions(callback.message)
+    return await manage_permissions_handler(callback.message)

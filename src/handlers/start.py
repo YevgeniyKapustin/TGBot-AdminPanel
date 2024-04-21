@@ -11,7 +11,7 @@ router = Router()
 
 
 @router.message(Command("start"))
-async def start(message: Message):
+async def start_handler(message: Message):
     user_id: int = message.from_user.id
     name: str = message.from_user.full_name
     user: User | None = await get_user(user_id)
@@ -29,6 +29,7 @@ async def start(message: Message):
     else:
         if user.is_admin:
             keyboard.append(KeyboardButton(text=buttons.users_permissions))
+            keyboard.append(KeyboardButton(text=buttons.userbot))
         logger.debug(f'/start для {message.from_user.first_name}')
         return await message.answer(
             messages.welcome,

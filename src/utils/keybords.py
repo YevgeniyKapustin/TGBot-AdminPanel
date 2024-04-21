@@ -6,6 +6,7 @@ from src.models.channel import Channel
 from src.models.user import User
 from src.services.channel import get_channels
 from src.services.user import get_users
+from src.services.userbot import get_userbot
 from src.utils.log import log_func
 
 
@@ -62,5 +63,31 @@ async def get_manage_channel_builder(channel_id: int) -> InlineKeyboardBuilder:
     builder.row(InlineKeyboardButton(
         text=f'{buttons.back}',
         callback_data=f'manage_channels')
+    )
+    return builder
+
+
+@log_func
+async def get_manage_userbot_builder() -> InlineKeyboardBuilder:
+    builder: InlineKeyboardBuilder = InlineKeyboardBuilder()
+    if await get_userbot():
+        builder.row(InlineKeyboardButton(
+            text=f'{buttons.delete}',
+            callback_data=f'userbot_delete')
+        )
+    else:
+        builder.row(InlineKeyboardButton(
+            text=f'{buttons.add}',
+            callback_data=f'userbot_add')
+        )
+    return builder
+
+
+@log_func
+async def get_only_back_builder() -> InlineKeyboardBuilder:
+    builder: InlineKeyboardBuilder = InlineKeyboardBuilder()
+    builder.row(InlineKeyboardButton(
+        text='Отменить',
+        callback_data='back')
     )
     return builder

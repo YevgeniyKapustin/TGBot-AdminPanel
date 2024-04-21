@@ -9,6 +9,7 @@ from src.utils.dsn import get_dsn
 from src.db import Base
 from src.models import user
 from src.models import channel
+from src.models import userbot
 
 config = context.config
 

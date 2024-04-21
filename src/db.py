@@ -15,7 +15,6 @@ from src.utils.dsn import get_dsn
 @as_declarative()
 class Base:
     __name__: str
-    id: Mapped[int] = Column(Integer, primary_key=True)
 
     @declared_attr
     def __tablename__(self) -> str:

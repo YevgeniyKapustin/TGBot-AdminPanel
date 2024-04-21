@@ -12,7 +12,7 @@ router = Router()
 
 
 @router.message(F.text == buttons.statistics, PermissionFilter())
-async def manage_statistic(message: Message):
+async def manage_statistic_handler(message: Message):
     logger.info(buttons.statistics)
     answer: str = messages.manage_statistic
     builder: InlineKeyboardBuilder = await get_manage_statistic_builder()
@@ -22,14 +22,14 @@ async def manage_statistic(message: Message):
 
 
 @router.callback_query(
-    F.data.startswith('statistic_new_subscribers'),
+    F.data == 'statistic_new_subscribers',
     PermissionFilter()
 )
-async def get_new_subscribers_statistics(callback: CallbackQuery):
+async def get_new_subscribers_statistics_handler(callback: CallbackQuery):
     logger.info(buttons.new_subscribers_statistics)
 
     answer: str = await get_new_subscribers_statistic()
     logger.info(answer)
     await callback.answer(answer)
 
-    await manage_statistic()
+    await manage_statistic_handler()

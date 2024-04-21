@@ -7,6 +7,8 @@ new_subscribers_statistics = 'Новые подписчики'
 
 channels = f'{emojis.speaker} Каналы'
 
+userbot = 'Юзербот'
+
 delete = 'Удалить'
 add = 'Добавить'
 back = 'Назад'

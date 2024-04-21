@@ -2,7 +2,7 @@ from aiogram import Dispatcher
 from loguru import logger
 
 from bot import bot
-from src.handlers import start, permission, statistic, channels
+from src.handlers import start, permission, statistic, channels, userbot
 
 
 async def main() -> None:
@@ -13,6 +13,7 @@ async def main() -> None:
         start.router,
         permission.router,
         statistic.router,
-        channels.router
+        channels.router,
+        userbot.router,
     )
     await dp.start_polling(bot)
