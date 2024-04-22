@@ -4,7 +4,6 @@ from pydantic_settings import BaseSettings
 class Config(BaseSettings):
     API_ID: int
     API_HASH: str
-    PHONE_NUMBER: str
 
     TOKEN: str
 
