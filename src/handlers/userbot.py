@@ -103,7 +103,7 @@ async def back_settings(callback: CallbackQuery, state: FSMContext):
     logger.info(buttons.back)
     await state.clear()
     await callback.message.delete()
-    await callback.message.answer('Отменено')
+    await callback.message.answer(messages.cansel)
 
 
 @router.callback_query(F.data == 'userbot_delete', PermissionFilter())
