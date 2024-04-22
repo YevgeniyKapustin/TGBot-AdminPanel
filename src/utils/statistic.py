@@ -14,7 +14,7 @@ async def get_new_subscribers_statistic():
     client = TelegramClient(userbot.phone, config.API_ID, config.API_HASH)
 
     one_day_ago = datetime.now() - timedelta(days=1)
-    new_subscribers_statistic: str = f'{one_day_ago.strftime('%d.%m.%y')}\n\n'
+    new_subscribers_statistic: str = f'{one_day_ago.strftime("%d.%m.%y")}\n\n'
     all_sum = 0
     async with client:
         for channel in await get_channels():
