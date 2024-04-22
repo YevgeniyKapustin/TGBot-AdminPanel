@@ -108,7 +108,7 @@ async def final_add_channel(message: Message, state: FSMContext):
 
     await state.clear()
 
-    answer: str = messages.add_channel_finally.format(name)
+    answer: str = messages.add_channel_finally
     logger.info(answer)
     await message.answer(answer)
     await manage_channels_handler(message, state)

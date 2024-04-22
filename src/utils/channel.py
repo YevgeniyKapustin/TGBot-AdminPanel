@@ -6,7 +6,7 @@ from src.utils.log import log_func
 async def get_channel_id(link: str | int) -> int:
     link = str(link)
     if link[0] != '@' and 't.me/' in link:
-        link = f'@{link.split('t.me/')[1]}'
+        link = f'@{link.split("t.me/")[1]}'
     elif link[0] == '@':
         ...
     elif link[0] == '-':
@@ -21,7 +21,7 @@ async def get_channel_id(link: str | int) -> int:
 async def get_channel_username(link: str | int) -> str | None:
     link = str(link)
     if link[0] != '@' and 't.me/' in link:
-        link = f'@{link.split('t.me/')[1]}'
+        link = f'@{link.split("t.me/")[1]}'
     elif link[0] == '@':
         ...
     elif link[0] == '-':
