@@ -30,6 +30,7 @@ async def get_new_subscribers_statistics_handler(callback: CallbackQuery):
 
     answer: str = await get_new_subscribers_statistic()
     logger.info(answer)
-    await callback.answer(answer)
+    await callback.message.delete()
+    await callback.message.answer(answer)
 
-    await manage_statistic_handler()
+    await manage_statistic_handler(callback.message)

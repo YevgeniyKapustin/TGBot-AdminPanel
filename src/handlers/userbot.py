@@ -3,12 +3,12 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from loguru import logger
-from pyrogram import Client
-from pyrogram.errors import (
-    PhoneNumberInvalid, PhoneNumberUnoccupied, PhoneCodeInvalid,
-    PhoneCodeExpired
+from telethon import TelegramClient
+from telethon.errors import (
+    PhoneCodeExpiredError, PhoneCodeInvalidError, PhoneNumberUnoccupiedError,
+    PhoneNumberInvalidError
 )
-from pyrogram.types import SentCode
+from telethon.tl.types.auth import SentCode
 
 from src import config
 from src.constants import buttons, messages
@@ -59,19 +59,15 @@ async def userbot_phone(message: Message, state: FSMContext):
     phone: str = message.text
     logger.info(phone)
     try:
-        client: Client = Client(
-            name='userbot',
-            api_id=config.API_ID,
-            api_hash=config.API_HASH
-        )
+        client = TelegramClient(phone, config.API_ID, config.API_HASH)
         await client.connect()
-        sent_code: SentCode = await client.send_code(phone)
+        sent_code: SentCode = await client.send_code_request(phone)
         await state.update_data(phone=phone)
         await state.update_data(client=client)
         await state.update_data(sent_code=sent_code.phone_code_hash)
         await state.set_state(AddUserbotState.code)
         await message.answer(messages.userbot_code)
-    except PhoneNumberInvalid:
+    except PhoneNumberInvalidError:
         await message.answer(messages.bad_phone, parse_mode='Markdown')
 
 
@@ -80,23 +76,23 @@ async def userbot_code(message: Message, state: FSMContext):
     state_data = await state.get_data()
     sent_code: str = state_data.get('sent_code')
     phone: str = state_data.get('phone')
-    client: Client = state_data.get('client')
+    client: TelegramClient = state_data.get('client')
     code: str = message.text
 
     logger.info(sent_code)
 
     try:
-        await client.sign_in(phone, sent_code, code)
+        await client.sign_in(phone=phone, code=code, phone_code_hash=sent_code)
         await add_userbot(phone)
         await message.answer(messages.success_auth)
         await state.clear()
         await manage_userbot_handler(message)
-    except PhoneNumberUnoccupied:
+    except PhoneNumberUnoccupiedError:
         await message.answer(messages.user_not_found)
-    except PhoneCodeInvalid:
+    except PhoneCodeInvalidError:
         await message.answer(messages.invalid_code)
-    except PhoneCodeExpired:
-        sent_code: SentCode = await client.send_code(phone)
+    except PhoneCodeExpiredError:
+        sent_code: SentCode = await client.send_code_request(phone)
         await state.update_data(sent_code=sent_code.phone_code_hash)
         await state.set_state(AddUserbotState.code)
         await message.answer(messages.expired_code)

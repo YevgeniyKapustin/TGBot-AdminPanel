@@ -2,7 +2,7 @@ from pydantic_settings import BaseSettings
 
 
 class Config(BaseSettings):
-    API_ID: str
+    API_ID: int
     API_HASH: str
     PHONE_NUMBER: str
 

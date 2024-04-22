@@ -60,7 +60,7 @@ async def delete_channel_handler(callback: CallbackQuery, state: FSMContext):
     channel_id: int = int(callback.data.split(':')[1])
     channel: Channel = await get_channel(channel_id)
     await delete_channel(channel)
-
+    await callback.message.delete()
     await manage_channels_handler(callback.message, state)
 
 
@@ -101,9 +101,8 @@ async def final_add_channel(message: Message, state: FSMContext):
         logger.info(answer)
         return message.answer(answer)
 
-    username = await get_channel_username(channel_id)
     if channel_id != -1:
-        await add_channel(channel_id, name, username)
+        await add_channel(channel_id, name)
     else:
         await message.answer(messages.add_channel_incorrect_link)
 
