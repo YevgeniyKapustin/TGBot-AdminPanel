@@ -16,12 +16,11 @@ async def get_permission_builder() -> InlineKeyboardBuilder:
     users: list[User] = await get_users()
     for count, user in enumerate(users, start=1):
 
-        if user.has_access:
-            emoji: str = emojis.active
-        else:
-            emoji: str = emojis.non_active
+        emoji: str = emojis.active if user.has_access else emojis.non_active
+        status: str = emojis.star if user.is_admin else ''
+
         builder.row(InlineKeyboardButton(
-            text=f'{emoji} {count}. {user.username}',
+            text=f'{emoji}{status} {count}. {user.username}',
             callback_data=f'user_config:{user.id}')
         )
     return builder
