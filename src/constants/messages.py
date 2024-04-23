@@ -1,6 +1,6 @@
 from src.constants import emojis
 
-welcome = f'{emojis.hello}Добро пожаловать в админ панель'
+welcome = f'{emojis.hello}Добро пожаловать'
 
 access_denied = f'{emojis.block} Вам отказано в доступе к боту!'
 access_denied_start = (

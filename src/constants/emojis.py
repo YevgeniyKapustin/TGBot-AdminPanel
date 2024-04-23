@@ -17,5 +17,4 @@ note = '📝'
 link = '🔗'
 phone = '📞'
 phone_arrow = '📲'
-
 star = '⭐'
