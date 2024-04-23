@@ -3,8 +3,9 @@ from datetime import datetime, timedelta
 
 from loguru import logger
 from telethon import TelegramClient
-from telethon.errors import ChannelPrivateError
+from telethon.errors import ChannelPrivateError, ChatAdminRequiredError
 from telethon.tl.functions.channels import GetFullChannelRequest
+from telethon.tl.types.stats import BroadcastStats
 
 from src import config
 from src.constants import emojis
@@ -27,17 +28,31 @@ async def get_new_subscribers_statistic():
                 tl_channel = await client.get_entity(channel.id)
                 channel_info = await client(GetFullChannelRequest(tl_channel))
                 if channel_info.full_chat.can_view_stats:
-                    broadcast_stats = await client.get_stats(tl_channel)
-                    data = json.loads(broadcast_stats.followers_graph.json.data)
-                    last_subscribers: int = data.get('columns')[1][-2]
-                    all_sum += last_subscribers
-                    new_string: str = f'{channel.name} - {last_subscribers}\n'
+                    stats: BroadcastStats = await client.get_stats(tl_channel)
+                    subscribers: int = get_subscribers_for_yesterday(stats)
+                    all_sum += subscribers
+                    new_string: str = get_new_string(channel.name, subscribers)
                 else:
-                    new_string = f'{channel.name} - {emojis.block}\n'
+                    new_string: str = get_new_string(channel.name)
             except ChannelPrivateError as ex:
                 logger.error(ex)
-                new_string = f'{channel.name} - {emojis.block}\n'
+                new_string: str = get_new_string(channel.name)
+            except ChatAdminRequiredError as ex:
+                logger.error(ex)
+                new_string: str = get_new_string(channel.name)
             new_subscribers_statistic += new_string
 
     new_subscribers_statistic += f'\nИтого: {all_sum}'
     return new_subscribers_statistic
+
+
+def get_subscribers_for_yesterday(broadcast_stats: BroadcastStats) -> int:
+    data: dict = json.loads(broadcast_stats.followers_graph.json.data)
+    subscribers: int = data.get('columns')[1][-2]
+    return subscribers
+
+
+def get_new_string(name: str, subscribers: int | None = None) -> str:
+    if subscribers:
+        return f'{name} - {subscribers}\n'
+    return f'{name} - {emojis.block}\n'
