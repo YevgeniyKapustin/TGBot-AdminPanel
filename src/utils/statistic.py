@@ -1,5 +1,7 @@
 import json
+from asyncio import sleep
 from datetime import datetime, timedelta
+from random import randint
 
 from loguru import logger
 from telethon import TelegramClient
@@ -25,6 +27,7 @@ async def get_new_subscribers_statistic():
     async with client:
         for channel in await get_channels():
             try:
+                await sleep(randint(3, 5))
                 tl_channel = await client.get_entity(channel.id)
                 channel_info = await client(GetFullChannelRequest(tl_channel))
                 if channel_info.full_chat.can_view_stats:
