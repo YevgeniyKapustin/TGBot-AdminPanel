@@ -67,7 +67,5 @@ def get_subscribers_for_yesterday(broadcast_stats: BroadcastStats) -> int:
     return subscribers
 
 
-def get_new_string(name: str, subscribers: int | None = None) -> str:
-    if subscribers:
-        return f'{name} - {subscribers}\n'
-    return f'{name} - {emojis.block}\n'
+def get_new_string(name: str, subscribers: int) -> str:
+    return f'{name} - {subscribers}\n'
