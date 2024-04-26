@@ -10,7 +10,7 @@ from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.types.stats import BroadcastStats
 
 from src import config
-from src.constants import emojis
+from src.constants import emojis, messages
 from src.models.userbot import Userbot
 from src.services.channel import get_channels
 from src.services.userbot import get_userbot
@@ -36,16 +36,25 @@ async def get_new_subscribers_statistic():
                     all_sum += subscribers
                     new_string: str = get_new_string(channel.name, subscribers)
                 else:
-                    new_string: str = get_new_string(channel.name)
+                    logger.error(messages.stat_not_allow)
+                    new_string: str = get_new_string(
+                        channel.name, messages.stat_not_allow
+                    )
             except ChannelPrivateError as ex:
                 logger.error(ex)
-                new_string: str = get_new_string(channel.name)
+                new_string: str = get_new_string(
+                    channel.name, messages.stat_not_allow
+                )
             except ChatAdminRequiredError as ex:
                 logger.error(ex)
-                new_string: str = get_new_string(channel.name)
+                new_string: str = get_new_string(
+                    channel.name, messages.bot_not_admin_in_channel
+                )
             except ValueError as ex:
                 logger.error(ex)
-                new_string: str = get_new_string(channel.name)
+                new_string: str = get_new_string(
+                    channel.name, messages.bot_not_in_channel
+                )
             new_subscribers_statistic += new_string
 
     new_subscribers_statistic += f'\nИтого: {all_sum}'
