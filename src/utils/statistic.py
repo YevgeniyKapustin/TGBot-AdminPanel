@@ -43,6 +43,9 @@ async def get_new_subscribers_statistic():
             except ChatAdminRequiredError as ex:
                 logger.error(ex)
                 new_string: str = get_new_string(channel.name)
+            except ValueError as ex:
+                logger.error(ex)
+                new_string: str = get_new_string(channel.name)
             new_subscribers_statistic += new_string
 
     new_subscribers_statistic += f'\nИтого: {all_sum}'

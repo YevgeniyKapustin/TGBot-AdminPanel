@@ -64,7 +64,7 @@ async def userbot_phone(message: Message, state: FSMContext):
         sent_code: SentCode = await client.send_code_request(phone)
         await state.update_data(phone=phone)
         await state.update_data(client=client)
-        await state.update_data(sent_code=sent_code.phone_code_hash)
+        await state.update_data(code_hash=sent_code.phone_code_hash)
         await state.set_state(AddUserbotState.code)
         await message.answer(messages.userbot_code)
     except PhoneNumberInvalidError:
@@ -74,15 +74,15 @@ async def userbot_phone(message: Message, state: FSMContext):
 @router.message(AddUserbotState.code, PermissionFilter())
 async def userbot_code(message: Message, state: FSMContext):
     state_data = await state.get_data()
-    sent_code: str = state_data.get('sent_code')
+    code_hash: str = state_data.get('code_hash')
     phone: str = state_data.get('phone')
     client: TelegramClient = state_data.get('client')
     code: str = message.text
 
-    logger.info(sent_code)
+    logger.info(code)
 
     try:
-        await client.sign_in(phone=phone, code=code, phone_code_hash=sent_code)
+        await client.sign_in(phone=phone, code=code, phone_code_hash=code_hash)
         await add_userbot(phone)
         await message.answer(messages.success_auth)
         await state.clear()
