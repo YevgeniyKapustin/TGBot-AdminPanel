@@ -15,10 +15,7 @@ async def start_handler(message: Message):
     user_id: int = message.from_user.id
     name: str = message.from_user.full_name
     user: User | None = await get_user(user_id)
-    keyboard: list = [
-        KeyboardButton(text=buttons.statistics),
-        KeyboardButton(text=buttons.channels),
-    ]
+    keyboard: list = [KeyboardButton(text=buttons.statistics)]
 
     if user is None:
         await add_user(user_id, name)
@@ -28,6 +25,7 @@ async def start_handler(message: Message):
         return await message.answer(messages.access_denied_start)
     else:
         if user.is_admin:
+            keyboard.append(KeyboardButton(text=buttons.channels))
             keyboard.append(KeyboardButton(text=buttons.users_permissions))
             keyboard.append(KeyboardButton(text=buttons.userbot))
         logger.debug(f'/start для {message.from_user.first_name}')

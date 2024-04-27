@@ -7,9 +7,11 @@ from loguru import logger
 from src.constants import buttons, messages
 from src.filters.permission import PermissionFilter
 from src.models.channel import Channel
+from src.models.user import User
 from src.services.channel import get_channel, add_channel, delete_channel
+from src.services.user import get_user
 from src.states.add_channel import AddChannelState
-from src.utils.channel import get_channel_id, get_channel_username
+from src.utils.channel import get_channel_id
 from src.utils.keybords import (
     get_manage_channels_builder, get_manage_channel_builder
 )
@@ -20,6 +22,12 @@ router = Router()
 @router.message(F.text == buttons.channels, PermissionFilter())
 async def manage_channels_handler(message: Message, state: FSMContext):
     logger.info(buttons.channels)
+
+    user: User = await get_user(message.from_user.id)
+    if user and not user.is_admin:
+        answer: str = messages.access_denied
+        logger.info(answer)
+        return await message.answer(answer)
 
     await state.clear()
     answer: str = messages.manage_channels
