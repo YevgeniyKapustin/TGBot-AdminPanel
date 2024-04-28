@@ -42,3 +42,6 @@ cansel = f'{emojis.block}Отменено'
 stat_not_allow = f'{emojis.block}Нет доступа к статистике'
 bot_not_in_channel = f'{emojis.block}Юзербота нет в канале'
 bot_not_admin_in_channel = f'{emojis.block}У юзербота нет админки'
+not_actual_userbot = (
+    f'{emojis.block}Проверьте состояние юзербота. Добавьте его заново'
+)

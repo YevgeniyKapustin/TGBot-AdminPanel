@@ -23,40 +23,42 @@ async def get_new_subscribers_statistic():
     one_day_ago: datetime = datetime.now() - timedelta(days=1)
     new_subscribers_statistic: str = f'{one_day_ago.strftime("%d.%m.%y")}\n\n'
     all_sum = 0
-
-    async with client:
-        for channel in await get_channels():
-            try:
-                await sleep(randint(3, 5))
-                tl_channel = await client.get_entity(channel.id)
-                channel_info = await client(GetFullChannelRequest(tl_channel))
-                if channel_info.full_chat.can_view_stats:
-                    stats: BroadcastStats = await client.get_stats(tl_channel)
-                    subscribers: int = get_subscribers_for_yesterday(stats)
-                    all_sum += subscribers
-                    new_string: str = get_new_string(channel.name, subscribers)
-                else:
-                    logger.error(messages.stat_not_allow)
+    try:
+        async with client:
+            for channel in await get_channels():
+                try:
+                    await sleep(randint(3, 5))
+                    tl_channel = await client.get_entity(channel.id)
+                    channel_info = await client(GetFullChannelRequest(tl_channel))
+                    if channel_info.full_chat.can_view_stats:
+                        stats: BroadcastStats = await client.get_stats(tl_channel)
+                        subscribers: int = get_subscribers_for_yesterday(stats)
+                        all_sum += subscribers
+                        new_string: str = get_new_string(channel.name, subscribers)
+                    else:
+                        logger.error(messages.stat_not_allow)
+                        new_string: str = get_new_string(
+                            channel.name, messages.stat_not_allow
+                        )
+                except ChannelPrivateError as ex:
+                    logger.error(ex)
                     new_string: str = get_new_string(
                         channel.name, messages.stat_not_allow
                     )
-            except ChannelPrivateError as ex:
-                logger.error(ex)
-                new_string: str = get_new_string(
-                    channel.name, messages.stat_not_allow
-                )
-            except ChatAdminRequiredError as ex:
-                logger.error(ex)
-                new_string: str = get_new_string(
-                    channel.name, messages.bot_not_admin_in_channel
-                )
-            except ValueError as ex:
-                logger.error(ex)
-                new_string: str = get_new_string(
-                    channel.name, messages.bot_not_in_channel
-                )
-            new_subscribers_statistic += new_string
-
+                except ChatAdminRequiredError as ex:
+                    logger.error(ex)
+                    new_string: str = get_new_string(
+                        channel.name, messages.bot_not_admin_in_channel
+                    )
+                except ValueError as ex:
+                    logger.error(ex)
+                    new_string: str = get_new_string(
+                        channel.name, messages.bot_not_in_channel
+                    )
+                new_subscribers_statistic += new_string
+    except EOFError:
+        logger.error(ex)
+        return messages.not_actual_userbot
     new_subscribers_statistic += f'\nИтого: {all_sum}'
     return new_subscribers_statistic
 
