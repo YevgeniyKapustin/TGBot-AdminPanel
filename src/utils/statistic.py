@@ -56,7 +56,7 @@ async def get_new_subscribers_statistic():
                         channel.name, messages.bot_not_in_channel
                     )
                 new_subscribers_statistic += new_string
-    except EOFError:
+    except EOFError as ex:
         logger.error(ex)
         return messages.not_actual_userbot
     new_subscribers_statistic += f'\nИтого: {all_sum}'
