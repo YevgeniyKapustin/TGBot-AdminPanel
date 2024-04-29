@@ -56,6 +56,8 @@ async def add_channels_statistic(date: datetime.date) -> bool:
 
 @log_func
 async def add_channel_statistic(channel_id: int) -> bool:
+    if len(str(channel_id)) < 14:
+        channel_id = int(str(channel_id).replace('-', '-100'))
     with get_session() as session:
         new_channel_statistic = ChannelStatistic(
             date=datetime.date.today(),
