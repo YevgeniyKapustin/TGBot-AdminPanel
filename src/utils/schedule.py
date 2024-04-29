@@ -1,3 +1,5 @@
+from datetime import datetime, date, timedelta
+
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 
@@ -9,7 +11,8 @@ scheduler = AsyncIOScheduler()
 
 
 async def send_stats():
-    new_subscribers_statistic = await get_new_subscribers_statistic()
+    stat_date: datetime.date = date.today() - timedelta(days=1)
+    new_subscribers_statistic = await get_new_subscribers_statistic(stat_date)
     for user in await get_users():
         if user.has_access:
             await bot.send_message(user.id, new_subscribers_statistic)

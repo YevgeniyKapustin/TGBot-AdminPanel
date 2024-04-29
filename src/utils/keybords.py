@@ -33,6 +33,10 @@ async def get_manage_statistic_builder() -> InlineKeyboardBuilder:
         text=buttons.new_subscribers_statistics,
         callback_data=f'statistic_new_subscribers'),
     )
+    builder.row(InlineKeyboardButton(
+        text=buttons.new_subscribers_statistics_today,
+        callback_data=f'statistic_new_subscribers_today'),
+    )
     return builder
 
 

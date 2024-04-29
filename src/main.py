@@ -3,6 +3,7 @@ from loguru import logger
 
 from bot import bot
 from src.handlers import start, permission, statistic, channels, userbot
+from src.updates import channel
 from src.utils.schedule import scheduler
 
 
@@ -16,6 +17,7 @@ async def main() -> None:
         statistic.router,
         channels.router,
         userbot.router,
+        channel.router
     )
     scheduler.start()
     await dp.start_polling(bot)
