@@ -4,6 +4,7 @@ from sqlalchemy.sql.operators import and_
 
 from src.db import get_session
 from src.models.channel_statistic import ChannelStatistic
+from src.services.channel import get_channels
 from src.utils.log import log_func
 
 
