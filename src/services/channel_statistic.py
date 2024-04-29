@@ -4,7 +4,6 @@ from sqlalchemy.sql.operators import and_
 
 from src.db import get_session
 from src.models.channel_statistic import ChannelStatistic
-from src.services.channel import get_channels, get_channel
 from src.utils.log import log_func
 
 
@@ -51,6 +50,18 @@ async def add_channels_statistic(date: datetime.date) -> bool:
                 new_subscribers=0
             )
             session.add(new_channel_statistic)
+        return True
+
+
+@log_func
+async def add_channel_statistic(channel_id: int) -> bool:
+    with get_session() as session:
+        new_channel_statistic = ChannelStatistic(
+            date=datetime.date.today(),
+            channel_id=channel_id,
+            new_subscribers=0
+        )
+        session.add(new_channel_statistic)
         return True
 
 

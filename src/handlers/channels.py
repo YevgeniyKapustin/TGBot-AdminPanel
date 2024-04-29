@@ -9,6 +9,7 @@ from src.filters.permission import PermissionFilter
 from src.models.channel import Channel
 from src.models.user import User
 from src.services.channel import get_channel, add_channel, delete_channel
+from src.services.channel_statistic import add_channel_statistic
 from src.services.user import get_user
 from src.states.add_channel import AddChannelState
 from src.utils.channel import get_channel_id
@@ -111,6 +112,7 @@ async def final_add_channel(message: Message, state: FSMContext):
 
     if channel_id != -1:
         await add_channel(channel_id, name)
+        await add_channel_statistic(channel_id)
     else:
         await message.answer(messages.add_channel_incorrect_link)
 
