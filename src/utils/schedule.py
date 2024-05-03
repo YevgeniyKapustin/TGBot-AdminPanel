@@ -18,4 +18,4 @@ async def send_stats():
             await bot.send_message(user.id, new_subscribers_statistic)
 
 
-scheduler.add_job(send_stats, CronTrigger.from_crontab('00 7 * * *'))
+scheduler.add_job(send_stats, CronTrigger.from_crontab('00 4 * * *'))

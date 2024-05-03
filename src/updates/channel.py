@@ -9,5 +9,9 @@ router = Router()
 
 @router.chat_member()
 async def handle_new_subscriber(event: ChatMemberUpdated):
-    if not event.new_chat_member.status == ChatMemberStatus.LEFT:
+    if (
+            event.new_chat_member.status == ChatMemberStatus.CREATOR or
+            event.new_chat_member.status == ChatMemberStatus.ADMINISTRATOR or
+            event.new_chat_member.status == ChatMemberStatus.MEMBER
+    ):
         await update_new_subscribers(event.date.date(), event.chat.id)
