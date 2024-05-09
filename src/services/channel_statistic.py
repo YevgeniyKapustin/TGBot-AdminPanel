@@ -45,12 +45,13 @@ def get_channel_statistic(
 def add_channels_statistic(date: datetime.date) -> bool:
     with get_session() as session:
         for channel in get_channels():
-            new_channel_statistic = ChannelStatistic(
-                date=date,
-                channel_id=channel.id,
-                new_subscribers=0
-            )
-            session.add(new_channel_statistic)
+            if not get_channel_statistic(date, channel.id):
+                new_channel_statistic = ChannelStatistic(
+                    date=date,
+                    channel_id=channel.id,
+                    new_subscribers=0
+                )
+                session.add(new_channel_statistic)
         return True
 
 
