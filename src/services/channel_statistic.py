@@ -19,7 +19,7 @@ async def get_channels_statistic(
             all()
         )
         if not channels_statistic:
-            await add_channels_statistic(date)
+            add_channels_statistic(date)
             channels_statistic = await get_channels_statistic(date)
         return channels_statistic
 
