@@ -10,8 +10,7 @@ router = Router()
 @router.chat_member()
 def handle_new_subscriber(event: ChatMemberUpdated):
     if (
-            event.new_chat_member.status == ChatMemberStatus.CREATOR or
-            event.new_chat_member.status == ChatMemberStatus.ADMINISTRATOR or
+            event.old_chat_member.status == ChatMemberStatus.LEFT and
             event.new_chat_member.status == ChatMemberStatus.MEMBER
     ):
         update_new_subscribers(event.date.date(), event.chat.id)

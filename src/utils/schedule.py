@@ -1,7 +1,9 @@
 from datetime import datetime, date, timedelta
 
+from aiogram.exceptions import TelegramForbiddenError
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
+from loguru import logger
 
 from bot import bot
 from src.services.user import get_users
@@ -15,7 +17,9 @@ async def send_stats():
     new_subscribers_statistic = await get_new_subscribers_statistic(stat_date)
     for user in await get_users():
         if user.has_access:
-            await bot.send_message(user.id, new_subscribers_statistic)
-
+            try:
+                await bot.send_message(user.id, new_subscribers_statistic)
+            except TelegramForbiddenError as ex:
+                logger.debug(ex)
 
 scheduler.add_job(send_stats, CronTrigger.from_crontab('00 4 * * *'))

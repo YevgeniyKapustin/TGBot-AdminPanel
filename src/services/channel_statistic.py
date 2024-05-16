@@ -1,5 +1,6 @@
 import datetime
 
+from loguru import logger
 from sqlalchemy.sql.operators import and_
 
 from src.db import get_session
@@ -76,6 +77,10 @@ def update_new_subscribers(date: datetime.date, channel_id: int) -> bool:
         if not statistic:
             add_channels_statistic(date)
             statistic = get_channel_statistic(date, channel_id)
-        statistic.new_subscribers += 1
-        session.add(statistic)
-        return True
+        try:
+            statistic.new_subscribers += 1
+            session.add(statistic)
+            return True
+        except AttributeError as ex:
+            logger.debug(ex)
+            return False
