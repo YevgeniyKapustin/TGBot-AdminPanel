@@ -18,6 +18,7 @@ def handle_new_subscriber(event: ChatMemberUpdated):
         stat = get_channel_statistic(event.date.date(), event.chat.id)
         logger.debug(stat.new_subscribers)
         update_new_subscribers(event.date.date(), event.chat.id)
+        stat = get_channel_statistic(event.date.date(), event.chat.id)
         logger.debug(stat.new_subscribers)
     else:
         stat = get_channel_statistic(event.date.date(), event.chat.id)
