@@ -15,13 +15,18 @@ def handle_new_subscriber(event: ChatMemberUpdated):
             event.old_chat_member.status == ChatMemberStatus.LEFT and
             event.new_chat_member.status == ChatMemberStatus.MEMBER
     ):
+        stat = get_channel_statistic(event.date.date(), event.chat.id)
+        if stat:
+            logger.debug(stat.new_subscribers)
+
         update_new_subscribers(event.date.date(), event.chat.id)
+
         stat = get_channel_statistic(event.date.date(), event.chat.id)
-        logger.debug(stat.new_subscribers)
-        stat = get_channel_statistic(event.date.date(), event.chat.id)
-        logger.debug(stat.new_subscribers)
+        if stat:
+            logger.debug(stat.new_subscribers)
     else:
         stat = get_channel_statistic(event.date.date(), event.chat.id)
+
         if stat:
             logger.debug(stat.new_subscribers)
             logger.debug(event.old_chat_member.status)
