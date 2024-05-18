@@ -25,7 +25,6 @@ async def get_channels_statistic(
         return channels_statistic
 
 
-@log_func
 def get_channel_statistic(
         date: datetime.date, channel_id: int
 ) -> ChannelStatistic:
@@ -70,7 +69,6 @@ async def add_channel_statistic(channel_id: int) -> bool:
         return True
 
 
-@log_func
 def update_new_subscribers(date: datetime.date, channel_id: int) -> bool:
     with get_session() as session:
         statistic = get_channel_statistic(date, channel_id)
