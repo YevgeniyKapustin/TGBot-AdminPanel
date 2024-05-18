@@ -10,6 +10,6 @@ class ChannelStatistic(Base):
     channel_id: str = Column(
         BigInteger, ForeignKey('channel.id'), nullable=False
     )
-    new_subscribers: bool = Column(Integer, nullable=False, default=False)
+    new_subscribers: int = Column(Integer, nullable=False, default=False)
 
     channel = relationship('Channel', back_populates='statistics')
