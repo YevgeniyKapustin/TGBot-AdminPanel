@@ -12,7 +12,7 @@ async def get_new_subscribers_statistic(date: datetime.date):
     columbia = '<b>Колумбия</b>\n\n'
     peru = '<b>Перу</b>\n\n'
     ecuador = '<b>Эквадор</b>\n\n'
-    other = '<b>Нераспределенные</b>\n\n'
+    other = '<b>Нераспределенные</b>\n'
     # вот это можно было бы сделать через бд, но мне кажется так будет проще
     bolivia_sum = 0
     columbia_sum = 0
