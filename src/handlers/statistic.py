@@ -2,6 +2,7 @@ import datetime
 from datetime import date, timedelta
 
 from aiogram import Router, F
+from aiogram.enums import ParseMode
 from aiogram.types import Message, CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from loguru import logger
@@ -35,7 +36,7 @@ async def get_new_subscribers_statistics_handler(callback: CallbackQuery):
     answer: str = await get_new_subscribers_statistic(stat_date)
     logger.info(answer)
     await callback.message.delete()
-    await callback.message.answer(answer)
+    await callback.message.answer(text=answer, parse_mode=ParseMode.MARKDOWN)
 
     await manage_statistic_handler(callback.message)
 
@@ -53,6 +54,6 @@ async def get_new_subscribers_statistics_today_handler(
     answer: str = await get_new_subscribers_statistic(stat_date)
     logger.info(answer)
     await callback.message.delete()
-    await callback.message.answer(answer)
+    await callback.message.answer(text=answer, parse_mode=ParseMode.MARKDOWN)
 
     await manage_statistic_handler(callback.message)

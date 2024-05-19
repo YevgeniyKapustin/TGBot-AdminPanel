@@ -43,21 +43,21 @@ async def get_new_subscribers_statistic(date: datetime.date):
             other_sum += subs
             other += string
     new_subscribers_statistic += (
-        f'{bolivia}_______________\nИтого: {bolivia_sum}\n'
+        f'{bolivia}_______________\nИтого: {bolivia_sum}\n\n'
     )
     new_subscribers_statistic += (
-        f'{columbia}_______________\nИтого: {columbia_sum}\n'
+        f'{columbia}_______________\nИтого: {columbia_sum}\n\n'
     )
     new_subscribers_statistic += (
-        f'{peru}_______________\nИтого: {peru_sum}\n'
+        f'{peru}_______________\nИтого: {peru_sum}\n\n'
     )
     new_subscribers_statistic += (
-        f'{ecuador}_______________\nИтого: {ecuador_sum}\n'
+        f'{ecuador}_______________\nИтого: {ecuador_sum}\n\n'
     )
     new_subscribers_statistic += (
-        f'{other}_______________\nИтого: {other_sum}\n'
+        f'{other}_______________\nИтого: {other_sum}\n\n'
     )
-    new_subscribers_statistic += f'\n**ИТОГО ВСЕ ГЕО: {all_sum}**'
+    new_subscribers_statistic += f'**ИТОГО ВСЕ ГЕО: {all_sum}**'
 
     logger.info(new_subscribers_statistic)
     return new_subscribers_statistic
