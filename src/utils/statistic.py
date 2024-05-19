@@ -8,11 +8,11 @@ from src.services.channel_statistic import get_channels_statistic
 
 async def get_new_subscribers_statistic(date: datetime.date):
     new_subscribers_statistic: str = f'{date.strftime("%d.%m.%y")}\n\n'
-    bolivia = '**Боливия**\n\n'
-    columbia = '**Колумбия**\n\n'
-    peru = '**Перу**\n\n'
-    ecuador = '**Эквадор**\n\n'
-    other = '**Нераспределенные**\n\n'
+    bolivia = '<b>Боливия</b>\n\n'
+    columbia = '<b>Колумбия</b>\n\n'
+    peru = '<b>Перу</b>\n\n'
+    ecuador = '<b>Эквадор</b>\n\n'
+    other = '<b>Нераспределенные</b>\n\n'
     # вот это можно было бы сделать через бд, но мне кажется так будет проще
     bolivia_sum = 0
     columbia_sum = 0
@@ -57,7 +57,7 @@ async def get_new_subscribers_statistic(date: datetime.date):
     new_subscribers_statistic += (
         f'{other}_______________\nИтого: {other_sum}\n\n'
     )
-    new_subscribers_statistic += f'ИТОГО ВСЕ ГЕО: {all_sum}'
+    new_subscribers_statistic += f'<b>ИТОГО ВСЕ ГЕО: {all_sum}</b>'
 
     logger.info(new_subscribers_statistic)
     return new_subscribers_statistic
