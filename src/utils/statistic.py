@@ -22,10 +22,10 @@ async def get_new_subscribers_statistic(date: datetime.date):
     all_sum = 0
 
     for channel_statistic in await get_channels_statistic(date):
-        all_sum += channel_statistic.new_subscribers
         channel = await get_channel(channel_statistic.channel_id)
         subs = int(channel_statistic.new_subscribers * 1.2)
         # очень костыльная компенсация пропадающих ивентов на участников
+        all_sum += subs
         string = get_new_string(channel.name, subs)
         if channel.name[:2] == 'БЛ':
             bolivia_sum += subs
@@ -42,11 +42,21 @@ async def get_new_subscribers_statistic(date: datetime.date):
         else:
             other_sum += subs
             other += string
-    bolivia += f'_______________\nИтого: {bolivia_sum}\n'
-    columbia += f'_______________\nИтого: {columbia_sum}\n'
-    peru += f'_______________\nИтого: {peru_sum}\n'
-    ecuador += f'_______________\nИтого: {ecuador_sum}\n'
-    other += f'_______________\nИтого: {other_sum}\n'
+    new_subscribers_statistic += (
+        f'{bolivia}_______________\nИтого: {bolivia_sum}\n'
+    )
+    new_subscribers_statistic += (
+        f'{columbia}_______________\nИтого: {columbia_sum}\n'
+    )
+    new_subscribers_statistic += (
+        f'{peru}_______________\nИтого: {peru_sum}\n'
+    )
+    new_subscribers_statistic += (
+        f'{ecuador}_______________\nИтого: {ecuador_sum}\n'
+    )
+    new_subscribers_statistic += (
+        f'{other}_______________\nИтого: {other_sum}\n'
+    )
     new_subscribers_statistic += f'\n**ИТОГО ВСЕ ГЕО: {all_sum}**'
 
     logger.info(new_subscribers_statistic)
