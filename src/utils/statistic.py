@@ -54,8 +54,7 @@ async def get_new_subscribers_statistic(date: datetime.date):
     new_subscribers_statistic += (
         f'{ecuador}_______________\nИтого: {ecuador_sum}\n\n'
     )
-    if len(other) == 27:
-        other = other[:25]
+    other = other[:25] if len(other) == 27 else other
     new_subscribers_statistic += (
         f'{other}_______________\nИтого: {other_sum}\n\n'
     )
