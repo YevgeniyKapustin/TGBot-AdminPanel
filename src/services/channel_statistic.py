@@ -56,12 +56,15 @@ def add_channels_statistic(date: datetime.date) -> bool:
 
 
 @log_func
-async def add_channel_statistic(channel_id: int) -> bool:
+async def add_channel_statistic(
+        channel_id: int,
+        date: datetime.date = datetime.date.today()
+) -> bool:
     if len(str(channel_id)) < 14:
         channel_id = int(str(channel_id).replace('-', '-100'))
     with get_session() as session:
         new_channel_statistic = ChannelStatistic(
-            date=datetime.date.today(),
+            date=date,
             channel_id=channel_id,
             new_subscribers=0
         )
@@ -71,9 +74,9 @@ async def add_channel_statistic(channel_id: int) -> bool:
 
 def update_new_subscribers(date: datetime.date, channel_id: int) -> bool:
     with get_session() as session:
-        statistic = get_channel_statistic(date, channel_id)
+        statistic: ChannelStatistic = get_channel_statistic(date, channel_id)
         if not statistic:
-            add_channels_statistic(date)
+            add_channel_statistic(channel_id, date)
             statistic = get_channel_statistic(date, channel_id)
         try:
             statistic.new_subscribers += 1
