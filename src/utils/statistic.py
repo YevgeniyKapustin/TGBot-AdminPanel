@@ -57,7 +57,7 @@ async def get_new_subscribers_statistic(date: datetime.date):
     new_subscribers_statistic += (
         f'{other}_______________\nИтого: {other_sum}\n\n'
     )
-    new_subscribers_statistic += f'**ИТОГО ВСЕ ГЕО: {all_sum}**'
+    new_subscribers_statistic += f'ИТОГО ВСЕ ГЕО: {all_sum}'
 
     logger.info(new_subscribers_statistic)
     return new_subscribers_statistic
