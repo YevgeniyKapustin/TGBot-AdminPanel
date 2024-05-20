@@ -1,5 +1,6 @@
 from datetime import datetime, date, timedelta
 
+from aiogram.enums import ParseMode
 from aiogram.exceptions import TelegramForbiddenError
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
@@ -18,7 +19,11 @@ async def send_stats():
     for user in await get_users():
         if user.has_access:
             try:
-                await bot.send_message(user.id, new_subscribers_statistic)
+                await bot.send_message(
+                    chat_id=user.id,
+                    text=new_subscribers_statistic,
+                    parse_mode=ParseMode.HTML
+                )
             except TelegramForbiddenError as ex:
                 logger.debug(ex)
 
