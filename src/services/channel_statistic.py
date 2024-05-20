@@ -76,7 +76,7 @@ def update_new_subscribers(date: datetime.date, channel_id: int) -> bool:
     with get_session() as session:
         statistic: ChannelStatistic = get_channel_statistic(date, channel_id)
         if not statistic:
-            add_channel_statistic(channel_id, date)
+            add_channels_statistic(date)
             statistic = get_channel_statistic(date, channel_id)
         try:
             statistic.new_subscribers += 1
