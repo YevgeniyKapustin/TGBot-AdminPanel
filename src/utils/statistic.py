@@ -23,7 +23,7 @@ async def get_new_subscribers_statistic(date: datetime.date):
 
     for channel_statistic in await get_channels_statistic(date):
         channel = await get_channel(channel_statistic.channel_id)
-        subs = int(channel_statistic.new_subscribers * 1.2)
+        subs = int(channel_statistic.new_subscribers * 1.3)
         # очень костыльная компенсация пропадающих ивентов на участников
         all_sum += subs
         string = get_new_string(channel.name, subs)
