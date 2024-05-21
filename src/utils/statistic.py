@@ -43,28 +43,28 @@ async def get_new_subscribers_statistic(date: datetime.date):
 
     new_subscribers_statistic += (
         f'{bolivia}_______________\nИтого: {bolivia_sum}\n'
-        f'Диалогов: ~{bolivia_sum * 0.8}\n\n'
+        f'Диалогов: ~{int(all_sum * 0.8)}\n\n'
     )
     new_subscribers_statistic += (
         f'{columbia}_______________\nИтого: {columbia_sum}\n'
-        f'Диалогов: ~{bolivia_sum * 0.8}\n\n'
+        f'Диалогов: ~{int(all_sum * 0.8)}\n\n'
     )
     new_subscribers_statistic += (
         f'{peru}_______________\nИтого: {peru_sum}\n'
-        f'Диалогов: ~{bolivia_sum * 0.8}\n\n'
+        f'Диалогов: ~{int(all_sum * 0.8)}\n\n'
     )
     new_subscribers_statistic += (
         f'{ecuador}_______________\nИтого: {ecuador_sum}\n'
-        f'Диалогов: ~{bolivia_sum * 0.8}\n\n'
+        f'Диалогов: ~{int(all_sum * 0.8)}\n\n'
     )
     other = other[:25] if len(other) == 27 else other
     new_subscribers_statistic += (
         f'{other}_______________\nИтого: {other_sum}\n'
-        f'Диалогов: ~{bolivia_sum * 0.8}\n\n'
+        f'Диалогов: ~{int(all_sum * 0.8)}\n\n'
     )
     new_subscribers_statistic += (
         f'<b>ИТОГО ВСЕ ГЕО: {all_sum}</b>\n'
-        f'Диалогов: ~{all_sum * 0.8}'
+        f'Диалогов: ~{int(all_sum * 0.8)}'
     )
 
     logger.info(new_subscribers_statistic)
