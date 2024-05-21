@@ -43,24 +43,24 @@ async def get_new_subscribers_statistic(date: datetime.date):
 
     new_subscribers_statistic += (
         f'{bolivia}_______________\nИтого: {bolivia_sum}\n'
-        f'Диалогов: ~{int(all_sum * 0.8)}\n\n'
+        f'Диалогов: ~{int(bolivia_sum * 0.8)}\n\n'
     )
     new_subscribers_statistic += (
         f'{columbia}_______________\nИтого: {columbia_sum}\n'
-        f'Диалогов: ~{int(all_sum * 0.8)}\n\n'
+        f'Диалогов: ~{int(columbia_sum * 0.8)}\n\n'
     )
     new_subscribers_statistic += (
         f'{peru}_______________\nИтого: {peru_sum}\n'
-        f'Диалогов: ~{int(all_sum * 0.8)}\n\n'
+        f'Диалогов: ~{int(peru_sum * 0.8)}\n\n'
     )
     new_subscribers_statistic += (
         f'{ecuador}_______________\nИтого: {ecuador_sum}\n'
-        f'Диалогов: ~{int(all_sum * 0.8)}\n\n'
+        f'Диалогов: ~{int(ecuador_sum * 0.8)}\n\n'
     )
     other = other[:25] if len(other) == 27 else other
     new_subscribers_statistic += (
         f'{other}_______________\nИтого: {other_sum}\n'
-        f'Диалогов: ~{int(all_sum * 0.8)}\n\n'
+        f'Диалогов: ~{int(other_sum * 0.8)}\n\n'
     )
     new_subscribers_statistic += (
         f'<b>ИТОГО ВСЕ ГЕО: {all_sum}</b>\n'
