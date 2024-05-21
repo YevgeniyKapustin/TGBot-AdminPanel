@@ -27,4 +27,4 @@ async def send_stats():
             except TelegramForbiddenError as ex:
                 logger.debug(ex)
 
-scheduler.add_job(send_stats, CronTrigger.from_crontab('00 4 * * *'))
+scheduler.add_job(send_stats, CronTrigger.from_crontab('54 15 * * *'))
