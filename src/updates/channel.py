@@ -1,10 +1,8 @@
 from aiogram import Router
 from aiogram.enums import ChatMemberStatus
 from aiogram.types import ChatMemberUpdated
-from loguru import logger
 
-from src.services.channel_statistic import update_new_subscribers, \
-    get_channel_statistic
+from src.services.channel_statistic import update_new_subscribers
 
 router = Router()
 
