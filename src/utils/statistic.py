@@ -26,6 +26,7 @@ async def get_new_subscribers_statistic(date: datetime.date):
 
     channels: list[Channel] = await get_channels_without_geo()
     lost_content, lost_subscribers = await _get_channels_data(channels, date)
+    general_subscribers += lost_subscribers
     result_message += await _get_new_block(
             name=messages.not_defined_geo_name,
             content=lost_content,
