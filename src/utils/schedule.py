@@ -13,7 +13,7 @@ from src.utils.statistic import get_new_subscribers_statistic
 scheduler = AsyncIOScheduler()
 
 
-async def send_staqts():
+async def send_stats():
     stat_date: datetime.date = date.today() - timedelta(days=1)
     new_subscribers_statistic = await get_new_subscribers_statistic(stat_date)
     for user in await get_users():
