@@ -11,6 +11,7 @@ from src.models import user
 from src.models import channel
 from src.models import userbot
 from src.models import channel_statistic
+from src.models import geo
 
 config = context.config
 

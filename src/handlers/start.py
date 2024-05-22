@@ -26,6 +26,7 @@ async def start_handler(message: Message):
     else:
         if user.is_admin:
             keyboard.append(KeyboardButton(text=buttons.channels))
+            keyboard.append(KeyboardButton(text=buttons.geo))
             keyboard.append(KeyboardButton(text=buttons.users_permissions))
         logger.debug(f'/start для {message.from_user.first_name}')
         return await message.answer(

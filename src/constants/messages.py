@@ -15,9 +15,14 @@ select_access_self = f'{emojis.block}Невозможно забрать у се
 
 manage_statistic = f'{emojis.statistics}Статистика'
 
+manage_geo = f'{emojis.pin}Гео'
+add_geo_name = f'{emojis.note}Напишите название для гео'
+add_geo_finally = f'{emojis.check}Гео добавлено'
+
 manage_channels = f'{emojis.speaker}Каналы'
 add_channel_name = f'{emojis.note}Напишите имя для канала'
 add_channel_link = f'{emojis.link}Напишите ссылку на канал или id канала'
+add_channel_geo = f'{emojis.pin}Выберете гео для канала'
 add_channel_incorrect_link = (
     f'{emojis.block}Некорректная ссылка на канал или id'
 )
@@ -26,6 +31,7 @@ add_channel_duplicate_name = (
     f'{emojis.block}Канал с таким названием уже существует'
 )
 add_channel_finally = f'{emojis.check}Канал добавлен'
+success_change_name = f'{emojis.check}Канал изменён'
 
 manage_userbot = f'{emojis.setting}Юзербот'
 userbot_phone = (
@@ -45,3 +51,5 @@ bot_not_admin_in_channel = f'{emojis.block}У юзербота нет админ
 not_actual_userbot = (
     f'{emojis.block}Проверьте состояние юзербота. Добавьте его заново'
 )
+
+not_defined_geo_name = 'Нераспредёленные'

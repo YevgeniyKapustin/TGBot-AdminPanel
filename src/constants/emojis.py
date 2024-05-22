@@ -18,3 +18,5 @@ link = '🔗'
 phone = '📞'
 phone_arrow = '📲'
 star = '⭐'
+
+pin = '📍'
